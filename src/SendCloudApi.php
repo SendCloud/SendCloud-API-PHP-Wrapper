@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @version 2.0.3
- * @package Sendcloud
+ * @version 2.0.4
+ * @package SendCloud
  * @see http://www.sendcloud.nl/docs/2/
  */
 class SendCloudApi 
@@ -19,22 +19,22 @@ class SendCloudApi
 	protected $api_secret;
 	
 	/**
-	 * @var SendcloudApiParcelResource
+	 * @var SendCloudApiParcelResource
 	 */
 	public $parcels;
 	
 	/**
-	 * @var SendcloudApiShippingResource
+	 * @var SendCloudApiShippingResource
 	 */
 	public $shipping_methods;
 	
 	/**
-	 * @var SendcloudApiUserResource
+	 * @var SendCloudApiUserResource
 	 */
 	public $user;
 	
 	/**
-	 * @var SendcloudApiLabelResource
+	 * @var SendCloudApiLabelResource
 	 */
 	public $label;
 
@@ -71,14 +71,14 @@ class SendCloudApi
 	 * @param string $api_key 
 	 * @param string $api_secret 
 	 * @return void
-	 * @throws SendcloudApiException Exception thrown if one of the arguments are not passed
+	 * @throws SendCloudApiException Exception thrown if one of the arguments are not passed
 	 */
 	function setApiKeys($api_key = false, $api_secret = false) {
 		if ($api_key || $api_secret) {
 			$this->api_key = $api_key;
 			$this->api_secret = $api_secret;
 		} else {
-			throw new SendcloudApiException('You must have an API key and an API secret key');
+			throw new SendCloudApiException('You must have an API key and an API secret key');
 		}
 	}
 	
@@ -87,10 +87,10 @@ class SendCloudApi
 	 * @return void
 	 */
 	private function _setupResources() {
-		$this->parcels = new SendcloudApiParcelsResource($this);
-		$this->shipping_methods = new SendcloudApiShippingResource($this);
-		$this->user = new SendcloudApiUserResource($this);
-		$this->label = new SendcloudApiLabelResource($this);
+		$this->parcels = new SendCloudApiParcelsResource($this);
+		$this->shipping_methods = new SendCloudApiShippingResource($this);
+		$this->user = new SendCloudApiUserResource($this);
+		$this->label = new SendCloudApiLabelResource($this);
 	}
 	
 	/**
@@ -188,15 +188,15 @@ class SendCloudApi
 	 * @param object $object 
 	 * @param object $return_object 
 	 * @return object
-	 * @throws SendcloudApiException Exception thrown if $object isn't an object
-	 * @throws SendcloudApiException Exception thrown if server returns an error
+	 * @throws SendCloudApiException Exception thrown if $object isn't an object
+	 * @throws SendCloudApiException Exception thrown if server returns an error
 	 */
 	public function sendRequest($url, $method, $object, $return_object) {
 		$curl_options = array();
 		if ($method == 'post' || $method == 'put') {
 			// there must be an object
 			if (!$object) {
-				throw new SendcloudApiException('There must be an object when we want to create or update');
+				throw new SendCloudApiException('There must be an object when we want to create or update');
 			}
 			
 			$curl_options = array(
@@ -223,7 +223,6 @@ class SendCloudApi
 		
 		curl_setopt_array($curl_handler, $curl_options);
 		
-		// finally. Request the hole thing
 		$response_body	= curl_exec($curl_handler);
 		$response_body	= json_decode($response_body, true);
 		$response_code	= curl_getinfo($curl_handler, CURLINFO_HTTP_CODE);
@@ -247,7 +246,7 @@ class SendCloudApi
 	 * @param int $response_code 
 	 * @param string $response_body 
 	 * @return void
-	 * @throws SendcloudApiException Exception containing the response error received from the server
+	 * @throws SendCloudApiException Exception containing the response error received from the server
 	 */
 	private function handleResponseError($response_code, $response_body) {
 		$error = $response_body['error'];
@@ -264,16 +263,16 @@ class SendCloudApi
 			$code = $error['code'];
 		}
 		
-		throw new SendcloudApiException($message, $code);
+		throw new SendCloudApiException($message, $code);
 	}	
 }
 
 /**
  * @version 2.0.0
- * @package Sendcloud
+ * @package SendCloud
  * @see http://www.sendcloud.nl/docs/2/
  */
-class SendcloudApiException extends Exception {
+class SendCloudApiException extends Exception {
 	public $message;
 	public $code;
 	
@@ -286,10 +285,10 @@ class SendcloudApiException extends Exception {
 
 /**
  * @version 2.0.0
- * @package Sendcloud
+ * @package SendCloud
  * @see http://www.sendcloud.nl/docs/2/
  */
-abstract class SendcloudApiAbstractResource {
+abstract class SendCloudApiAbstractResource {
 	
 	/**
 	 * @var WebshopappApiClient
@@ -361,10 +360,10 @@ abstract class SendcloudApiAbstractResource {
 
 /**
  * @version 2.0.0
- * @package Sendcloud
+ * @package SendCloud
  * @see http://www.sendcloud.nl/docs/2/
  */
-class SendcloudApiParcelsResource extends SendcloudApiAbstractResource {
+class SendCloudApiParcelsResource extends SendCloudApiAbstractResource {
 	
 	protected $resource = 'parcels';
 	protected $create_resource = 'parcel';
@@ -403,10 +402,10 @@ class SendcloudApiParcelsResource extends SendcloudApiAbstractResource {
 
 /**
  * @version 2.0.0
- * @package Sendcloud
+ * @package SendCloud
  * @see http://www.sendcloud.nl/docs/2/
  */
-class SendcloudApiLabelResource extends SendcloudApiAbstractResource {
+class SendCloudApiLabelResource extends SendCloudApiAbstractResource {
 	
 	protected $resource = 'labels';
 	protected $list_resource = 'label';
@@ -418,10 +417,10 @@ class SendcloudApiLabelResource extends SendcloudApiAbstractResource {
 
 /**
  * @version 2.0.0
- * @package Sendcloud
+ * @package SendCloud
  * @see http://www.sendcloud.nl/docs/2/
  */
-class SendcloudApiUserResource extends SendcloudApiAbstractResource {
+class SendCloudApiUserResource extends SendCloudApiAbstractResource {
 	
 	protected $resource = 'user';
 	protected $list_resource = 'user';
@@ -432,10 +431,10 @@ class SendcloudApiUserResource extends SendcloudApiAbstractResource {
 
 /**
  * @version 2.0.0
- * @package Sendcloud
+ * @package SendCloud
  * @see http://www.sendcloud.nl/docs/2/
  */
-class SendcloudApiShippingResource extends SendcloudApiAbstractResource {
+class SendCloudApiShippingResource extends SendCloudApiAbstractResource {
 	
 	protected $resource = 'shipping_methods';
 	protected $list_resource = 'shipping_methods';
