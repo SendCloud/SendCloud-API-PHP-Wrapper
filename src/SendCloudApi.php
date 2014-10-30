@@ -228,7 +228,7 @@ class SendCloudApi
 		$response_body	= json_decode($response_body, true);
 		$response_code	= curl_getinfo($curl_handler, CURLINFO_HTTP_CODE);
 		curl_close($curl_handler);
-		
+	
 		if ($response_code < 200 || empty($response_body) || $response_code > 299 || array_key_exists('error', $response_body)) {
 			$this->handleResponseError($response_code, $response_body);
 		}
@@ -274,6 +274,8 @@ class SendCloudApi
  * @see http://www.sendcloud.nl/docs/2/
  */
 class SendcloudApiException extends Exception {
+	public $message;
+	public $code;
 	
 	function __construct($message, $code = false) {
 		$this->message = $message;
@@ -442,8 +444,3 @@ class SendcloudApiShippingResource extends SendcloudApiAbstractResource {
 	protected $update_request = false;
 	
 }
-
-
-
-
-
