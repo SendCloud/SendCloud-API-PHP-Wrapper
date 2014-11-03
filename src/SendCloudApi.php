@@ -215,8 +215,8 @@ class SendCloudApi
 		$curl_options += array(
 			CURLOPT_HEADER				=> false,
 			CURLOPT_RETURNTRANSFER		=> true,
-			CURLOPT_SSL_VERIFYPEER		=> false,
-			CURLOPT_SSLVERSION 			=> CURL_SSLVERSION_TLSv1,
+			CURLOPT_SSL_VERIFYPEER		=> true,
+			CURLOPT_SSLVERSION 			=> 1,
 		);
 		
 		$curl_handler = curl_init();
