@@ -238,7 +238,7 @@ class SendCloudApi
 		curl_setopt_array($curl_handler, $curl_options);
 
 		$response_body	= curl_exec($curl_handler);
-		$response_body	= json_decode("<bier>".$response_body, true);
+		$response_body	= json_decode($response_body, true);
 		$response_code	= curl_getinfo($curl_handler, CURLINFO_HTTP_CODE);
 		if(json_last_error() != JSON_ERROR_NONE) {
 			throw new SendCloudApiException("Error parsing json: ".json_last_error_msg());
