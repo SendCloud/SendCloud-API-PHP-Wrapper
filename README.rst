@@ -16,7 +16,7 @@ Download ``SendCloudApi.php``::
 
    require_once('SendCloudAPI.php');
    
-   $api = new SendCloudApi('live', 'API_PUBLIC', 'API_SECRET');
+   $api = new SendCloudApi('API_PUBLIC', 'API_SECRET');
 
    // Get shipping methods of this user
    $shipping_methods = $api->shipping_methods->get();
