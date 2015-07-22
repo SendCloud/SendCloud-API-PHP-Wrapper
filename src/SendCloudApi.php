@@ -167,7 +167,9 @@ class SendCloudApi
 		$api_url		= $this->apiUrl;
 		$api_parsed		= parse_url($api_url);
 		$resource_url	= parse_url($url);
-		$apiUrl = $api_parsed['scheme'].'://'.$this->getApiKey().':'.$this->getApiSecret().'@'.$api_parsed['host'].':'.$api_parsed['port'].'/';
+		// When the port is in the parsed url, add the port.
+		$port = (isset($api_parsed['port']) ? ":".$api_parsed['port'] : "");
+		$apiUrl = $api_parsed['scheme'].'://'.$this->getApiKey().':'.$this->getApiSecret().'@'.$api_parsed['host'].$port.'/';
 
 		if(isset($api_parsed['path']) && strlen(trim($api_parsed['path'], '/'))) {
 			$apiUrl .= trim($api_parsed['path'], '/').'/';
