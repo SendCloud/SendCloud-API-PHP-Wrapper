@@ -26,7 +26,7 @@ Download ``SendCloudApi.php``::
 Documentation
 ----------------------
 Documentation is available here:
-`SendCloud API v2 Documentation (incl. PHP wrapper examples) <https://www.sendcloud.nl/docs/2/>`_
+`SendCloud API v2 Documentation (incl. PHP wrapper examples) <https://docs.sendcloud.sc/api/v2/index.html>`_
 
 Be aware that you need a SendCloud account before you can use the SendCloud API.
 
