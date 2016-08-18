@@ -38,8 +38,8 @@ Alternatives
 
 Support
 -------
-If you need support please contact us: contact@sendcloud.nl
+If you need support please contact us through the form in the SendCloud Panel.
 
 Copyright (c) 2014 SendCloud_ BV released under the MIT License
 
-.. _SendCloud: https://www.sendcloud.nl
+.. _SendCloud: https://www.sendcloud.sc
