@@ -1,7 +1,7 @@
 SendCloud API PHP Wrapper
 =========================
 
-This wrapper helps you to easily connect to the SendCloud API when you use PHP as your main programming language. 
+This wrapper helps you to easily connect to the SendCloud API when you use PHP as your main programming language.
 
 The wrapper is officially supported by SendCloud.
 Feel free to improve the wrapper by sending us a pull request.
@@ -14,8 +14,8 @@ Example
 -------
 Download ``SendCloudApi.php``::
 
-   require_once('SendCloudAPI.php');
-   
+   require_once('SendCloudApi.php');
+
    $api = new SendCloudApi('API_PUBLIC', 'API_SECRET');
 
    // Get shipping methods of this user
