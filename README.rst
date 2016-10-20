@@ -14,8 +14,8 @@ Example
 -------
 Download ``SendCloudApi.php``::
 
-   require_once('SendCloudAPI.php');
-   
+   require_once('SendCloudApi.php');
+
    $api = new SendCloudApi('API_PUBLIC', 'API_SECRET');
 
    // Get shipping methods of this user
