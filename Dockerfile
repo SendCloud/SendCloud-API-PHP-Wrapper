@@ -1,7 +1,7 @@
 FROM php:5.6-cli
 
-RUN apt-get update \
-    && apt-get -y install \
+RUN apt update \
+    && apt -y install \
       git \
       libicu-dev \
       libmcrypt-dev \
@@ -11,6 +11,8 @@ RUN apt-get update \
       libpng12-dev \
       libxml2-dev \
       libxslt1-dev \
+      zip \
+      unzip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -sS https://getcomposer.org/installer | php \
