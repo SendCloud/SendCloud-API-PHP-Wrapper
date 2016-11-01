@@ -446,7 +446,7 @@ class SendCloudApiParcelsResource extends SendCloudApiAbstractResource {
 	 * `/parcels/` endpoint with the resource ID included in the payload.
 	 */
 	function update($object_id = false, $data)
-    {
+	{
 		if ($this->update_request && $object_id) {
 			$data = $data + array('id' => $object_id);
 			$fields = array($this->update_resource => $data);
