@@ -9,7 +9,7 @@ if (!function_exists('json_last_error_msg')) {
 			JSON_ERROR_SYNTAX => 'Syntax error',
 			JSON_ERROR_UTF8 => 'Malformed UTF-8 characters, possibly incorrectly encoded'
 		);
-		
+
 		$error = json_last_error();
 		return isset($ERRORS[$error]) ? $ERRORS[$error] : 'Unknown error';
 	}
@@ -396,7 +396,6 @@ abstract class SendCloudApiAbstractResource {
 				return $this->client->update($this->resource . '/' . $object_id, $fields, $this->update_resource);
 			}
 		}
-
 	}
 
 }
@@ -438,6 +437,20 @@ class SendCloudApiParcelsResource extends SendCloudApiAbstractResource {
 		if ($this->create_request) {
 			$data = array($this->list_resource => $object);
 			return $this->client->create($this->resource, $data, $this->list_resource);
+		}
+	}
+
+	/**
+	 * Override the default update method from the `SendCloudApiAbstractResource`
+	 * in order to match the API documentation. Parcel updates should use the
+	 * `/parcels/` endpoint with the resource ID included in the payload.
+	 */
+	function update($object_id = false, $data)
+	{
+		if ($this->update_request && $object_id) {
+			$data = $data + array('id' => $object_id);
+			$fields = array($this->update_resource => $data);
+			return $this->client->update($this->resource, $fields, $this->update_resource);
 		}
 	}
 

@@ -31,6 +31,22 @@ Documentation is available here:
 Be aware that you need a SendCloud account before you can use the SendCloud API.
 
 
+Tests
+-----
+Use Composer_ to install the test dependencies and run the tests::
+
+    composer install
+    vendor/bin/phpunit tests
+
+You may use the built-in Docker_ image for development purposes::
+
+    docker build . -t sc-php-api
+    docker run --rm -it -v "$PWD":/code sc-php-api bash
+    composer install
+    vendor/bin/phpunit tests/
+
+
+
 Alternatives
 ----------------------
 `Picqer unofficial PHP API wrapper <https://github.com/picqer/sendcloud-php-client>`_
@@ -40,6 +56,9 @@ Support
 -------
 If you need support please contact us through the form in the SendCloud Panel.
 
+
 Copyright (c) 2014 SendCloud_ BV released under the MIT License
 
 .. _SendCloud: https://www.sendcloud.sc
+.. _Composer: https://getcomposer.org
+.. _Docker: https://www.docker.com
