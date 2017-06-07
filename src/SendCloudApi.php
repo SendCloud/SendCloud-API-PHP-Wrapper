@@ -28,9 +28,11 @@ class SendCloudApi
 		API information
 		API Key: Your public api key
 		API Secret: Your secret api key
+		Partner uuid: Your SendCloud partner uuid
 	*/
 	protected $api_key;
 	protected $api_secret;
+	protected $partner_uuid;
 
 	/**
 	 * @var SendCloudApiParcelResource
@@ -84,7 +86,6 @@ class SendCloudApi
 
 	/**
 	 * Wrapper constructor
-	 * @param string $env Environment to which the wrapper will interact with
 	 * @param string $api_key
 	 * @param string $api_secret
 	 * @return void
@@ -100,11 +101,18 @@ class SendCloudApi
 	 * @param string $env Environment to which the wrapper will interact with
 	 * @param string $api_key
 	 * @param string $api_secret
-	 * @deprecated drop the $env, only the api key and api secret
+	 * @param string $partner_uuid
+	 * @deprecated drop the $env, only the api key and api secret and optional partner uuid
 	 * @return void
 	 */
-	function __construct3($env, $api_key, $api_secret) {
-		$this->__construct2($api_key, $api_secret);
+	function __construct3($a, $b, $c) {
+		// Support legacy $env param
+		if (in_array($a, array("live", "test"))) {
+			$this->__construct2($b, $c);
+		} else {
+			$this->__construct2($a, $b);
+			$this->partner_uuid = $c;
+		}
 	}
 
 	public function setApiUrl($url) {
@@ -248,9 +256,15 @@ class SendCloudApi
 				throw new SendCloudApiException('There must be an object when we want to create or update');
 			}
 
+			$headers = array('Content-Type: application/json');
+
+			if (!empty($this->partner_uuid)) {
+				$headers[] = 'Sendcloud-Partner-Id: ' . $this->partner_uuid;
+			}
+
 			$curl_options = array(
 				CURLOPT_URL				=> $this->getUrl($url),
-				CURLOPT_HTTPHEADER		=> array('Content-Type: application/json'),
+				CURLOPT_HTTPHEADER		=> $headers,
 				CURLOPT_CUSTOMREQUEST	=> strtoupper($method),
 				CURLOPT_POSTFIELDS		=> json_encode($object),
 			);
