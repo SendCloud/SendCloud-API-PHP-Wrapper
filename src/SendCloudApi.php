@@ -22,7 +22,7 @@ if (!function_exists('json_last_error_msg')) {
  */
 class SendCloudApi
 {
-	const HOST_URL = 'https://local.sendcloud.sc/api/v2/';
+	const HOST_URL = 'https://panel.sendcloud.sc/api/v2/';
 
 	/*
 		API information
