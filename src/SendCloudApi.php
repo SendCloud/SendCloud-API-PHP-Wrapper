@@ -16,13 +16,13 @@ if (!function_exists('json_last_error_msg')) {
 }
 
 /**
- * @version 2.0.4
+ * @version 2.0.5
  * @package SendCloud
- * @see http://www.sendcloud.nl/docs/2/
+ * @see https://docs.sendcloud.sc/api/v2/index.html
  */
 class SendCloudApi
 {
-	const HOST_URL = 'https://panel.sendcloud.nl/api/v2/';
+	const HOST_URL = 'https://local.sendcloud.sc/api/v2/';
 
 	/*
 		API information
@@ -38,6 +38,11 @@ class SendCloudApi
 	public $parcels;
 
 	/**
+	 * @var SendCloudApiParcelStatusResource
+	 */
+	public $parcel_statuses;
+
+	/**
 	 * @var SendCloudApiShippingResource
 	 */
 	public $shipping_methods;
@@ -51,6 +56,16 @@ class SendCloudApi
 	 * @var SendCloudApiLabelResource
 	 */
 	public $label;
+
+	/**
+	 * @var SendCloudInvoicesResource
+	 */
+	public $invoices;
+
+	/**
+	 * @var SendCloudSenderAddressResource
+	 */
+	public $sender_addresses;
 
 	protected $apiUrl;
 
@@ -118,9 +133,12 @@ class SendCloudApi
 	 */
 	private function _setupResources() {
 		$this->parcels = new SendCloudApiParcelsResource($this);
+		$this->parcel_statuses = new SendCloudApiParcelStatusResource($this);
 		$this->shipping_methods = new SendCloudApiShippingResource($this);
 		$this->user = new SendCloudApiUserResource($this);
 		$this->label = new SendCloudApiLabelResource($this);
+		$this->invoices = new SendCloudApiInvoicesResource($this);
+		$this->sender_addresses = new SendCloudApiSenderAddressResource($this);
 	}
 
 	/**
@@ -313,7 +331,7 @@ class SendCloudApi
 /**
  * @version 2.0.0
  * @package SendCloud
- * @see http://www.sendcloud.nl/docs/2/
+ * @see https://docs.sendcloud.sc/api/v2/index.html
  */
 class SendCloudApiException extends Exception {
 	public $message;
@@ -329,7 +347,7 @@ class SendCloudApiException extends Exception {
 /**
  * @version 2.0.0
  * @package SendCloud
- * @see http://www.sendcloud.nl/docs/2/
+ * @see https://docs.sendcloud.sc/api/v2/index.html
  */
 abstract class SendCloudApiAbstractResource {
 
@@ -403,7 +421,7 @@ abstract class SendCloudApiAbstractResource {
 /**
  * @version 2.0.0
  * @package SendCloud
- * @see http://www.sendcloud.nl/docs/2/
+ * @see https://docs.sendcloud.sc/api/v2/index.html
  */
 class SendCloudApiParcelsResource extends SendCloudApiAbstractResource {
 
@@ -459,7 +477,7 @@ class SendCloudApiParcelsResource extends SendCloudApiAbstractResource {
 /**
  * @version 2.0.0
  * @package SendCloud
- * @see http://www.sendcloud.nl/docs/2/
+ * @see https://docs.sendcloud.sc/api/v2/index.html
  */
 class SendCloudApiLabelResource extends SendCloudApiAbstractResource {
 
@@ -474,7 +492,7 @@ class SendCloudApiLabelResource extends SendCloudApiAbstractResource {
 /**
  * @version 2.0.0
  * @package SendCloud
- * @see http://www.sendcloud.nl/docs/2/
+ * @see https://docs.sendcloud.sc/api/v2/index.html
  */
 class SendCloudApiUserResource extends SendCloudApiAbstractResource {
 
@@ -488,13 +506,58 @@ class SendCloudApiUserResource extends SendCloudApiAbstractResource {
 /**
  * @version 2.0.0
  * @package SendCloud
- * @see http://www.sendcloud.nl/docs/2/
+ * @see https://docs.sendcloud.sc/api/v2/index.html
  */
 class SendCloudApiShippingResource extends SendCloudApiAbstractResource {
 
 	protected $resource = 'shipping_methods';
 	protected $list_resource = 'shipping_methods';
 	protected $single_resource = 'shipping_method';
+	protected $create_request = false;
+	protected $update_request = false;
+
+}
+
+/**
+ * @version 2.0.0
+ * @package SendCloud
+ * @see https://docs.sendcloud.sc/api/v2/index.html
+ */
+class SendCloudApiParcelStatusResource extends SendCloudApiAbstractResource {
+
+	protected $resource = 'parcels/statuses';
+	protected $list_resource = '';
+	protected $single_resource = '';
+	protected $create_request = false;
+	protected $update_request = false;
+
+}
+
+/**
+ * @version 2.0.0
+ * @package SendCloud
+ * @see https://docs.sendcloud.sc/api/v2/index.html
+ */
+class SendCloudApiInvoicesResource extends SendCloudApiAbstractResource {
+
+	protected $resource = 'user/invoices';
+	protected $list_resource = 'invoices';
+	protected $single_resource = 'invoice';
+	protected $create_request = false;
+	protected $update_request = false;
+
+}
+
+/**
+ * @version 2.0.0
+ * @package SendCloud
+ * @see https://docs.sendcloud.sc/api/v2/index.html
+ */
+class SendCloudApiSenderAddressResource extends SendCloudApiAbstractResource {
+
+	protected $resource = 'user/addresses/sender';
+	protected $list_resource = 'sender_addresses';
+	protected $single_resource = 'sender_address';
 	protected $create_request = false;
 	protected $update_request = false;
 
