@@ -16,7 +16,7 @@ if (!function_exists('json_last_error_msg')) {
 }
 
 /**
- * @version 2.0.5
+ * @version 2.1.0
  * @package SendCloud
  * @see https://docs.sendcloud.sc/api/v2/index.html
  */
@@ -97,22 +97,15 @@ class SendCloudApi
 	}
 
 	/**
-	 * Legacy constructor
-	 * @param string $env Environment to which the wrapper will interact with
+	 * Partner wrapper contructor
 	 * @param string $api_key
 	 * @param string $api_secret
 	 * @param string $partner_uuid
-	 * @deprecated drop the $env, only the api key and api secret and optional partner uuid
 	 * @return void
 	 */
-	function __construct3($a, $b, $c) {
-		// Support legacy $env param
-		if (in_array($a, array("live", "test"))) {
-			$this->__construct2($b, $c);
-		} else {
-			$this->__construct2($a, $b);
-			$this->partner_uuid = $c;
-		}
+	function __construct3($api_key, $api_secret, $partner_uuid) {
+		$this->__construct2($api_key, $api_secret);
+		$this->partner_uuid = $partner_uuid;
 	}
 
 	public function setApiUrl($url) {
@@ -199,6 +192,16 @@ class SendCloudApi
 	}
 
 	/**
+	 * Updates an object
+	 * @param string $url
+	 * @return object
+	 */
+	public function cancel_parcel($url) {
+		return $this->sendRequest($url, 'post', array(), '');
+	}
+
+
+	/**
 	 * Generates the url that can be used for the call
 	 * @param string $url
 	 * @param array $params
@@ -251,11 +254,6 @@ class SendCloudApi
 	public function sendRequest($url, $method, $object, $return_object) {
 		$curl_options = array();
 		if ($method == 'post' || $method == 'put') {
-			// there must be an object
-			if (!$object) {
-				throw new SendCloudApiException('There must be an object when we want to create or update');
-			}
-
 			$headers = array('Content-Type: application/json');
 
 			if (!empty($this->partner_uuid)) {
@@ -297,11 +295,23 @@ class SendCloudApi
 		}
 		curl_close($curl_handler);
 
-		if ($response_code < 200 || empty($response_body) || $response_code > 299 || array_key_exists('error', $response_body)) {
+		$different_error_structure = array_key_exists('status', $response_body) && array_key_exists('message', $response_body) && $response_code > 399;
+		if (
+				$response_code < 200 || 
+				empty($response_body) || 
+				$response_code > 299 || 
+				array_key_exists('error', $response_body) || 
+				$different_error_structure
+			) {
+			if ($different_error_structure) {
+				$response_body = array('error' => $response_body);
+			}
 			$this->handleResponseError($response_code, $response_body);
 		}
 
-		$response_body = array_shift($response_body);
+		if (!empty($return_object)) {
+			$response_body = array_shift($response_body);
+		}
 
 		if (array_key_exists($return_object, $response_body)) {
 			return $response_body[$return_object];
@@ -425,7 +435,7 @@ abstract class SendCloudApiAbstractResource {
 		if ($this->update_request) {
 			if ($object_id) {
 				$fields = array($this->update_resource => $data);
-				return $this->client->update($this->resource . '/' . $object_id, $fields, $this->update_resource);
+				return $this->client->update($this->resource . '/' . $object_id, $fields, $this->update_resource, array(), '');
 			}
 		}
 	}
@@ -483,6 +493,12 @@ class SendCloudApiParcelsResource extends SendCloudApiAbstractResource {
 			$data = $data + array('id' => $object_id);
 			$fields = array($this->update_resource => $data);
 			return $this->client->update($this->resource, $fields, $this->update_resource);
+		}
+	}
+
+	function cancel($object_id) {
+		if ($object_id) {
+			return $this->client->cancel_parcel($this->resource . '/' . $object_id .'/cancel/');
 		}
 	}
 
