@@ -297,12 +297,12 @@ class SendCloudApi
 
 		$different_error_structure = array_key_exists('status', $response_body) && array_key_exists('message', $response_body) && $response_code > 399;
 		if (
-				$response_code < 200 || 
-				empty($response_body) || 
-				$response_code > 299 || 
-				array_key_exists('error', $response_body) || 
-				$different_error_structure
-			) {
+			$response_code < 200 || 
+			empty($response_body) || 
+			$response_code > 299 || 
+			array_key_exists('error', $response_body) || 
+			$different_error_structure
+		) {
 			if ($different_error_structure) {
 				$response_body = array('error' => $response_body);
 			}
