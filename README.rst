@@ -62,3 +62,16 @@ Copyright (c) 2014 SendCloud_ BV released under the MIT License
 .. _SendCloud: https://www.sendcloud.sc
 .. _Composer: https://getcomposer.org
 .. _Docker: https://www.docker.com
+
+
+Changelog
+---------
+**June 8 - SendCloud API PHP Wrapper 2.1.0**
+
+* Removed support for deprecated `$env`
+* Added `Sendcloud-Partner-Id` header
+* Added missing API end points. 
+* * `sender_addresses`
+* * `invoices`
+* * `parcel_statuses`
+* Added parcel cancellation method
