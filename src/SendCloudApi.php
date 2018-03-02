@@ -450,7 +450,7 @@ abstract class SendCloudApiAbstractResource {
 class SendCloudApiParcelsResource extends SendCloudApiAbstractResource {
 
 	protected $resource = 'parcels';
-	protected $create_resource = 'parcel';
+	protected $create_resource = 'parcels';
 	protected $update_resource = 'parcel';
 	protected $list_resource = 'parcels';
 	protected $single_resource = 'parcel';
