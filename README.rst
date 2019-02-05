@@ -1,3 +1,9 @@
+THIS LIBRARY HAS BEEN DEPRECATED.
+=================================
+
+Please refer to our official documentation <https://docs.sendcloud.sc/> to find alternative libraries.
+
+
 SendCloud API PHP Wrapper
 =========================
 
